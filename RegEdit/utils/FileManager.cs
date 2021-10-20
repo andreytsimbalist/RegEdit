@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Text.Json;
+
 namespace RegEdit.utils
 {
     public static class FileManager

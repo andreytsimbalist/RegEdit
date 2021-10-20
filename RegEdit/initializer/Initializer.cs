@@ -38,7 +38,6 @@ namespace RegEdit.initializer
 
             foreach (RegItem regItem in collection)
             {
-                regItem.Parameters.Add(DefaultParameter);
                 if (layer < 5)
                 {
                     List<RegItem> regItems = InitFolders(folderName + layer, amount);

@@ -5,12 +5,12 @@ namespace RegEdit.initializer
 {
     public class Initializer
     {
-        private static readonly Parameter DefaultParameter = new Parameter("(По умолчанию)",
-            "REG_SZ", "(значение не присвоено)");
+        private static readonly Parameter DefaultParameter = new Parameter("(default)",
+            "REG_SZ", "(value not assign)");
 
         public static RegItem Init()
         {
-            RegItem rootFolder = new RegItem("Компьютер");
+            RegItem rootFolder = new RegItem("Computer");
             ItemCollection regItems = rootFolder.Items;
 
             regItems.Add(InitHKey("HKEY_CLASSES_ROOT", "classesRoot_L"));

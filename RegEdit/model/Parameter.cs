@@ -1,5 +1,8 @@
-﻿namespace RegEdit
+﻿using System;
+
+namespace RegEdit
 {
+    [Serializable]
     public class Parameter
     {
         public string Name { get; set; }
@@ -11,6 +14,10 @@
             Name = name;
             Type = type;
             Value = value;
+        }
+        
+        public Parameter()
+        {
         }
     }
 }

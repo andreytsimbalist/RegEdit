@@ -11,6 +11,10 @@ namespace RegEdit
 
         public Parameter(string name, string type, string value)
         {
+            if (name.Equals(""))
+            {
+                name = "(Default)";
+            }
             Name = name;
             Type = type;
             Value = value;

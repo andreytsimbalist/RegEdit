@@ -1,10 +1,8 @@
 ﻿using System.Collections.ObjectModel;
-using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using RegEdit.initializer;
-using RegEdit.utils;
 
 namespace RegEdit
 {
@@ -30,18 +28,19 @@ namespace RegEdit
             var collection =  new ObservableCollection<Parameter>();
             reg.Parameters.ForEach((param) => collection.Add(param));
             dataGrid.ItemsSource = collection;
+            reg.Load();
         }
 
         private void ParamAdd_OnClick(object sender, RoutedEventArgs e)
         {
-            if (selectedRegItem == null) return;
-            if (paramName.Text.Equals("")) return;
-            if (paramType.Text.Equals("")) return;
-            if (paramValue.Text.Equals("")) return;
-            var parameter = new Parameter(paramName.Text,paramType.Text,paramValue.Text);
-            var collection =(ObservableCollection<Parameter>) dataGrid.ItemsSource;
-            selectedRegItem.Parameters.Add(parameter);
-            collection.Add(parameter);
+        //     if (selectedRegItem == null) return;
+        //     if (paramName.Text.Equals("")) return;
+        //     if (paramType.Text.Equals("")) return;
+        //     if (paramValue.Text.Equals("")) return;
+        //     var parameter = new Parameter(paramName.Text,paramType.Text,paramValue.Text);
+        //     var collection =(ObservableCollection<Parameter>) dataGrid.ItemsSource;
+        //     selectedRegItem.Parameters.Add(parameter);
+        //     collection.Add(parameter);
         }
 
         private void ParamDelete_OnClick(object sender, RoutedEventArgs e)
@@ -59,11 +58,10 @@ namespace RegEdit
 
         private void RegAdd_OnClick(object sender, RoutedEventArgs e)
         {
-            if(selectedRegItem == null) return;
-            if(regName.Text.Equals("")) return;
-            var newRegItem = new RegItem(regName.Text);
-            selectedRegItem.Items.Add(newRegItem);
-            
+            // if(selectedRegItem == null) return;
+            // if(regName.Text.Equals("")) return;
+            // var newRegItem = new RegItem(regName.Text);
+            // selectedRegItem.Items.Add(newRegItem);
         }
 
         private void RegDelete_OnClick(object sender, RoutedEventArgs e)
@@ -74,26 +72,15 @@ namespace RegEdit
            selectedRegItem = null;
         }
         
-        public RegItem GetParentRegItem(RegItem item)
+        private static RegItem GetParentRegItem(DependencyObject item)
         {
-            DependencyObject parent = VisualTreeHelper.GetParent(item);
+            var parent = VisualTreeHelper.GetParent(item);
             while (!(parent is TreeViewItem || parent is TreeView))
             {
                 parent = VisualTreeHelper.GetParent(parent);
             }
 
             return parent as RegItem;
-        }
-
-        private void RegSave_OnClick(object sender, RoutedEventArgs e)
-        {
-            FileManager.save((RegItem) treeView.Items[0]);
-        }
-
-        private void RegLoad_OnClick(object sender, RoutedEventArgs e)
-        {
-            treeView.Items.Clear();
-            treeView.Items.Add(FileManager.load());
         }
     }
 }

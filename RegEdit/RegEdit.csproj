@@ -88,8 +88,7 @@
             <Generator>MSBuild:Compile</Generator>
             <SubType>Designer</SubType>
         </ApplicationDefinition>
-        <Compile Include="model\Data.cs" />
-        <Compile Include="utils\FileManager.cs" />
+        <Compile Include="util\FuncHandleUtils.cs" />
         <Page Include="MainWindow.xaml">
             <Generator>MSBuild:Compile</Generator>
             <SubType>Designer</SubType>

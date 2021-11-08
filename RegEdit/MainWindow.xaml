@@ -45,8 +45,6 @@
                     <TextBox x:Name="regName" Margin="1"></TextBox>
                     <Button x:Name="regAdd" Click="RegAdd_OnClick" Margin="1">Добавить</Button>
                     <Button x:Name="regDelete" Click="RegDelete_OnClick" Margin="1">Удалить</Button>
-                    <Button x:Name="regSave" Click="RegSave_OnClick" Margin="1">Сохранить</Button>
-                    <Button x:Name="regLoad" Click="RegLoad_OnClick"  Margin="1">Загрузить</Button>
                 </StackPanel>
             </Grid>
         </Grid>

@@ -32,7 +32,7 @@ namespace RegEdit
             var keyNames = FuncHandleUtils.Execute(Key.GetSubKeyNames, new string[0]);
             foreach (var names in keyNames)
             {
-                var subKey = FuncHandleUtils.Execute(() => Key.OpenSubKey(names), null);
+                var subKey = FuncHandleUtils.Execute(() => Key.OpenSubKey(names,true), null);
                 if (subKey == null)
                 {
                     continue;
@@ -49,7 +49,7 @@ namespace RegEdit
             var keyNames = FuncHandleUtils.Execute(Key.GetSubKeyNames, new string[0]);
             foreach (var names in keyNames)
             {
-                var subKey = FuncHandleUtils.Execute(() => Key.OpenSubKey(names), null);
+                var subKey = FuncHandleUtils.Execute(() => Key.OpenSubKey(names,true), null);
                 if (subKey == null)
                 {
                     continue;

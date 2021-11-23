@@ -23,7 +23,7 @@ namespace RegEdit.initializer
             {
                 root.Items.Add(new RegItem(entry));
             }
-
+            
             return root;
         }
     }

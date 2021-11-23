@@ -1,7 +1,9 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using Microsoft.Win32;
 using RegEdit.initializer;
 
 namespace RegEdit
@@ -17,7 +19,7 @@ namespace RegEdit
         public MainWindow()
         {
             InitializeComponent();
-
+            paramType.ItemsSource =Enum.GetValues(typeof(RegistryValueKind));
             treeView.Items.Add(Initializer.Init());
         }
 
@@ -33,14 +35,23 @@ namespace RegEdit
 
         private void ParamAdd_OnClick(object sender, RoutedEventArgs e)
         {
-        //     if (selectedRegItem == null) return;
-        //     if (paramName.Text.Equals("")) return;
-        //     if (paramType.Text.Equals("")) return;
-        //     if (paramValue.Text.Equals("")) return;
-        //     var parameter = new Parameter(paramName.Text,paramType.Text,paramValue.Text);
-        //     var collection =(ObservableCollection<Parameter>) dataGrid.ItemsSource;
-        //     selectedRegItem.Parameters.Add(parameter);
-        //     collection.Add(parameter);
+            if(selectedRegItem == null) return;
+        if (selectedRegItem == null) return;
+        if (paramName.Text.Equals("")) return;
+        if (paramValue.Text.Equals("")) return;
+        try
+        {
+            selectedRegItem.Key.SetValue(paramName.Text, paramValue.Text, (RegistryValueKind) paramType.SelectedItem );
+        }
+        catch (Exception exception)
+        {
+            MessageBox.Show(exception.Message);
+            return;
+        }
+        var parameter = new Parameter(paramName.Text,paramType.Text,paramValue.Text);
+        var collection =(ObservableCollection<Parameter>) dataGrid.ItemsSource;
+        selectedRegItem.Parameters.Add(parameter);
+        collection.Add(parameter);
         }
 
         private void ParamDelete_OnClick(object sender, RoutedEventArgs e)
@@ -54,22 +65,46 @@ namespace RegEdit
             var collection =(ObservableCollection<Parameter>) dataGrid.ItemsSource;
             collection.Remove(item);
             selectedRegItem.Parameters.Remove(item);
+            try
+            {
+                selectedRegItem.Key.DeleteValue(item.Name);
+            }
+            catch (Exception exception)
+            {
+                MessageBox.Show(exception.Message);
+            }
         }
 
         private void RegAdd_OnClick(object sender, RoutedEventArgs e)
         {
-            // if(selectedRegItem == null) return;
-            // if(regName.Text.Equals("")) return;
-            // var newRegItem = new RegItem(regName.Text);
-            // selectedRegItem.Items.Add(newRegItem);
+            if(selectedRegItem == null) return;
+            if(regName.Text.Equals("")) return;
+            try
+            {
+                var newRegItem = selectedRegItem.Key.CreateSubKey(regName.Text);
+                var regItem = new RegItem(newRegItem);
+                selectedRegItem.Items.Add(regItem);
+            }
+            catch (Exception exception)
+            {
+                MessageBox.Show(exception.Message);
+            }
         }
 
         private void RegDelete_OnClick(object sender, RoutedEventArgs e)
         {
            if(selectedRegItem == null) return;
            var parent = GetParentRegItem(selectedRegItem);
-           parent.Items.Remove(selectedRegItem);
-           selectedRegItem = null;
+           try
+           {
+               parent.Key.DeleteSubKeyTree(selectedRegItem.Header.ToString()); 
+               parent.Items.Remove(selectedRegItem);
+               selectedRegItem = null;
+           }
+           catch (Exception exception)
+           {
+               MessageBox.Show(exception.Message);
+           }
         }
         
         private static RegItem GetParentRegItem(DependencyObject item)
